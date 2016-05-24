@@ -1,0 +1,30 @@
+# talk-account:
+#   build: ./talk-account
+#   expose:
+#     - 7630
+#   links:
+#     - talk-redis
+#     - talk-mongo
+# talk-api:
+#   build: ./talk-api2x
+#   expose:
+#     - 7001
+#   links:
+#     - talk-mongo
+#     - talk-redis
+talk-web:
+  build: .
+  expose:
+    - 7001
+    - 8081
+  links:
+    - talk-mongo
+    - talk-redis
+  ports:
+    - "7001:7001"
+    - "8081:8081"
+talk-redis:
+  image: redis:latest
+
+talk-mongo:
+  image: mongo:latest
