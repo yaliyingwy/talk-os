@@ -1,6 +1,6 @@
 limbo = require 'limbo'
 Promise = require 'bluebird'
-
+logger = require 'graceful-logger'
 app = require '../server'
 
 {UserModel, MobileModel, EmailModel, UnionModel} = limbo.use 'account'
@@ -14,6 +14,7 @@ module.exports = signInController = app.controller 'signin', ->
 
   @action 'render', (req, res, callback) ->
     {accountToken} = req.get()
+    logger.info 'accountToken:', accountToken
 
     if not accountToken?
       renderer req, res

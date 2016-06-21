@@ -16,7 +16,7 @@ module.exports =
   "add-service": "添加第三方服务"
   "add-weibo": "添加新浪微博"
   "admin": "管理员"
-  "ai-robot": "小艾"
+  "ai-robot": "文大爷家丫环"
   "all-members": "所有成员"
   "archived-topics": "已归档话题"
   "archived-topic": "已归档话题"
@@ -844,3 +844,14 @@ module.exports =
   "help-center": "帮助中心"
   'delete-activity-confirm': '删除这条动态?'
   'team-info': '团队信息'
+  'daily': '日报'
+  'no-daily': '今天还没有人提交日报'
+  'no-daily-tip': '记得每天按时提交日报哦～'
+  "daily-created": "日报创建成功"
+  "daily-create-failed": "日报创建失败"
+  "daily-removed": "删除日报成功"
+  "daily-remove-failed": "删除日报失败"
+  'daily-excel-exported': '导出excel成功'
+  'daily-excel-failed': '导出excel失败'
+  'daily-sended': '日报发送成功'
+  'daily-send-failed': '日报发送失败'

@@ -38,6 +38,12 @@ module.exports = React.createClass
     routerHandlers.teamOverview @props._teamId
     analytics.openOverview()
 
+  onRouteDaily: ->
+    if @isActiveRoute 'dailies'
+      routerHandlers.return()
+      return
+    routerHandlers.teamDaily @props._teamId
+
   onRouteFavorites: ->
     if @isActiveRoute 'favorites'
       routerHandlers.return()
@@ -61,6 +67,9 @@ module.exports = React.createClass
 
   render: ->
     div className: 'team-tools',
+      Tooltip template: lang.getText('daily'),
+        a className: cx('btn-tool', 'active': @isActiveRoute 'dailies'), onClick: @onRouteDaily,
+          Icon name: 'rich-text', size: 18
       Tooltip template: lang.getText('activities'),
         a className: cx('btn-tool', 'active': @isActiveRoute 'overview'), onClick: @onRouteOverview,
           Icon name: 'activity', size: 18

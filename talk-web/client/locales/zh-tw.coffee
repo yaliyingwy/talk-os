@@ -845,3 +845,6 @@ module.exports =
   "help-center": "幫助中心"
   'delete-activity-confirm': '刪除這條動態?'
   'team-info': '團隊信息'
+  'daily': '日报'
+  'no-daily': '今天还没有人提交日报'
+  'no-daily-tip': '记得每天按时提交日报哦～'

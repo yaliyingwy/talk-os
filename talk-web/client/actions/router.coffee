@@ -151,3 +151,9 @@ exports.overview = (_teamId, searchQuery) ->
     name: 'overview'
     data: {_teamId}
     query: searchQuery
+
+exports.dailies = (_teamId, searchQuery) ->
+  exports.go
+    name: 'dailies'
+    data: {_teamId}
+    query: searchQuery

@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "init": "./init.sh",
-    "start": "coffee app.coffee"
+    "start": "coffee app.coffee",
+    "deploy": "rsync -Iv -r ./* ywen@192.168.29.45:~/talk-os/"
   },
   "repository": {
     "type": "git",

@@ -34,8 +34,13 @@ searchMessage = require './search-message'
 taggedMessage = require './tagged-message'
 taggedResults = require './tagged-results'
 mentionedMessages = require './mentioned-message'
+daily = require './daily.coffee'
 
 methods = {
+  'daily/read': daily.read
+  'daily/create': daily.create
+  'daily/remove': daily.remove
+
   'tag/read': tag.read
   'tag/create': tag.create
   'tag/update': tag.update

@@ -70,6 +70,8 @@ module.exports = userController = app.controller 'user', ->
 
   @action 'me', (req, res, callback) ->
     {_sessionUserId, sessionUser} = req.get()
+    logger.info "_sessionUserId: #{_sessionUserId}, sessionUser: #{JSON.stringify sessionUser}"
+
 
     $preference = PreferenceModel.updateByUserIdAsync sessionUser._id, {}
 

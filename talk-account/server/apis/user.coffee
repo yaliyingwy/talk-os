@@ -23,6 +23,7 @@ module.exports = userController = app.controller 'user', ->
    * @return {Model} user - User model
   ###
   @action 'get', (req, res, callback) ->
+    console.log('user----', req.get('user'))
     callback null, req.get('user')
 
   ###*

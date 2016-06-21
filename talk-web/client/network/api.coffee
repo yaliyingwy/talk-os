@@ -118,6 +118,10 @@ api.get = (url) ->
       'X-Socket-Id': getSocketId()
   reqwest(options)
 
+api.download = (url) ->
+  console.log  'download', url
+  window.open url
+
 api.post = (url, data) ->
   options =
     url: url

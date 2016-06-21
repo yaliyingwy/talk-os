@@ -19,7 +19,7 @@ app.use cookieParser()
 
 # Log latest request
 app.use (req, res, next) ->
-  logger.info "Req #{req.method} #{req.url} #{Object.keys(req.query)} #{Object.keys(req.body)}"
+  logger.info "Req in account #{req.method} #{req.url} #{Object.keys(req.query)} #{Object.keys(req.body)}"
   next()
 
 # Init i18n middleware and set locale from cookie, query and header

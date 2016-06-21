@@ -7,6 +7,7 @@ module.exports = pathUtil.expandRoutes [
   # team router
   ['team',  '/team/:_teamId']
   ['overview',  '/team/:_teamId/overview']
+  ['dailies', '/team/:_teamId/dailies']
   ['chat', '/team/:_teamId/chat/:_toId']
   ['room', '/team/:_teamId/room/:_roomId']
   ['tags', '/team/:_teamId/tags']

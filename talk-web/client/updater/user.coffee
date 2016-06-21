@@ -1,5 +1,6 @@
 
 exports.me = (store, userData) ->
+  console.log 'userData:', userData
 
   if userData?
     store

@@ -844,3 +844,6 @@ module.exports =
   "help-center": "Help Center"
   'delete-activity-confirm': 'Delete this activity?'
   'team-info': 'Team Infomation'
+  'daily': 'daily report'
+  'no-daily': 'no report today'
+  'no-daily-tip': 'dont forget to report everday～'

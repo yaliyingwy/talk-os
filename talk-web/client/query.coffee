@@ -6,6 +6,13 @@ exports.orList = (x) ->
 exports.orMap = (x) ->
   x or Immutable.Map()
 
+exports.dailiesBy = (store, _teamId) ->
+  if store.hasIn ['dailies', _teamId]
+    store.getIn ['dailies', _teamId]
+  else
+    Immutable.List()
+  
+
 exports.fileMessagesBy = (store, _teamId, _channelId) ->
   store.getIn ['fileMessages', _teamId, _channelId]
 

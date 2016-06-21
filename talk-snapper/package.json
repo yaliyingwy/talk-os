@@ -5,6 +5,7 @@
     "test": "test"
   },
   "scripts": {
+    "start": "./node_modules/.bin/coffee app.coffee",
     "test": "NODE_ENV=test ./node_modules/.bin/mocha --require coffee-script/register --require should --reporter spec test/main.coffee"
   },
   "license": "MIT",

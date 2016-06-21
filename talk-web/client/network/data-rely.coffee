@@ -21,6 +21,7 @@ activitiesActions = require '../actions/activities'
 notificationActions = require '../actions/notification'
 searchMessageActions = require '../actions/search-message'
 mentionedMessageActions = require '../actions/mentioned-message'
+dailyActions = require '../actions/daily'
 
 # rely data sources
 
@@ -132,6 +133,14 @@ exports.relyFavoriteResults = (data) ->
   request: (resolve, reject) ->
     favoriteActions.clearResults()
     favoriteActions.searchFavorite data, resolve, reject
+
+exports.relyDailies = (_teamId) ->
+  store = recorder.getState()
+
+  kind: 'dailyResults'
+  isSatisfied: store.getIn(['dailies', _teamId])?
+  request: (resolve, reject) ->
+    dailyActions.readDaily _teamId, resolve, reject
 
 exports.relyTaggedResults = (data) ->
   kind: 'taggedResults'

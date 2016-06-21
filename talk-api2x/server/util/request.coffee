@@ -265,6 +265,7 @@ module.exports = requestUtil =
       qs: accountToken: accountToken
     console.log options
     request options, (err, res, user) ->
+      console.log 'user', user
       return callback(new Err('TOKEN_EXPIRED')) unless user?._id
       callback err, user
 

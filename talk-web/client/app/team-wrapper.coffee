@@ -12,6 +12,7 @@ ChannelPage = React.createFactory require './channel-page'
 MentionsPage = React.createFactory require './mentions-page'
 FavoritesPage = React.createFactory require './favorites-page'
 CollectionPage = React.createFactory require './collection-page'
+DailiesPage = React.createFactory require('./dailies-page').default
 
 { div } = React.DOM
 T = React.PropTypes
@@ -48,6 +49,10 @@ module.exports = React.createClass
 
       when 'favorites'
         FavoritesPage
+          _teamId: @props._teamId
+          router: @props.router
+      when 'dailies'
+        DailiesPage
           _teamId: @props._teamId
           router: @props.router
 

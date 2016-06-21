@@ -39,6 +39,7 @@ req.allowedKeys = [
   'scope', 'shortName', 'showname', 'signCode', 'socketId', 'sort', 'source', 'sourceId', 'status', 'syncAccount',
   'text', 'timeRange', 'timezone', 'title', 'token', 'topic', 'type',
   'unreadNum', 'url',
+  'work', 'productionDate', 'testDate', 'pm', 'progress', '_ids'
   'webData'
 ]
 

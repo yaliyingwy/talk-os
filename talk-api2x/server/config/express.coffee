@@ -51,7 +51,7 @@ app.use (req, res, next) ->
 
 unless config.test
   app.use (req, res, next) ->
-    logger.info "Req #{req.method} #{req.url} #{Object.keys(req.query)} #{Object.keys(req.body)}"
+    logger.info "Req #{req.method} #{req.url} #{JSON.stringify req.get()} query: #{Object.keys(req.query)} body: #{Object.keys(req.body)}"
     next()
 
 app.use "/#{config.apiVersion}/public", express.static(path.join(__dirname, '../../public'))

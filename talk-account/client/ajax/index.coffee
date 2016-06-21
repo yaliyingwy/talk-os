@@ -6,7 +6,7 @@ if typeof window is 'undefined'
 else
   clientConfig = window._initialStore.client
 
-apiHost = '/account'
+apiHost = ''
 
 controllers = require '../controllers'
 

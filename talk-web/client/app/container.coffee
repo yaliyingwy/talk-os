@@ -45,6 +45,7 @@ module.exports = React.createClass
     window.addEventListener 'keydown', @onWindowKeydown
     window.addEventListener 'focus', @onWindowFocus
     window.addEventListener 'blur', @onWindowBlur
+    console.log '-------4212'
 
   componentWillUnmount: ->
     window.removeEventListener 'keydown', @onWindowKeydown
@@ -66,6 +67,7 @@ module.exports = React.createClass
     deviceActions.detectFocus false
 
   onPopstate: (info) ->
+    console.log info
     preference = @props.core.getIn ['store', 'user', 'preference']
     initializeHandlers.loadPage preference, info
 
@@ -90,7 +92,7 @@ module.exports = React.createClass
     _userId = store.getIn(['user', '_id'])
 
     switch router.get('name')
-      when 'chat', 'collection', 'favorites', 'launch', 'room', 'story', 'tags', 'team', 'team404', 'mentions'
+      when 'chat', 'dailies', 'collection', 'favorites', 'launch', 'room', 'story', 'tags', 'team', 'team404', 'mentions'
         TeamPage
           store: store
           device: store.get 'device'

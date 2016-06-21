@@ -65,6 +65,9 @@ exports.loadPage = loadPage = (preference, defaultRouteInfo) ->
       routerHandlers.collection _teamId, searchQuery
     when 'favorites'
       routerHandlers.favorites _teamId, searchQuery
+    when 'dailies'
+      console.log 'loading dailies', _teamId
+      routerHandlers.dailies _teamId
     when 'room'
       routerHandlers.room _teamId, _roomId, searchQuery
     when 'story'

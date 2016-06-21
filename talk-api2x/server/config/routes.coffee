@@ -51,6 +51,13 @@ app.post '/favorites/reposts', to: 'favorite#reposts'
 app.resource 'favorite', only: ['create', 'read', 'remove']
 # ----------- favorites --------------
 
+
+# ----------- daily --------------
+app.get '/dailies/excel', to: 'daily#excel'
+app.post '/dailies/send', to: 'daily#send'
+app.resource 'daily', only: ['create', 'read', 'remove']
+# ----------- favorites --------------
+
 # ----------- user --------------
 app.post '/users/signout', to: 'user#signout'
 

@@ -50,6 +50,7 @@ module.exports = storyController = app.controller 'story', ->
 
   @action 'create', (req, res, callback) ->
     {_sessionUserId, socketId} = req.get()
+    console.log 'new store data:', req.get()
     story = new StoryModel req.get()
     story._creatorId = _sessionUserId
     story.socketId = socketId

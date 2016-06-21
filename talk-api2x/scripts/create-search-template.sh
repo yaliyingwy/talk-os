@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # 创建消息索引模板
-curl -XPUT localhost:9200/_template/talk_messages -d '
+curl -XPUT talk-search:9200/_template/talk_messages -d '
 {
   "template": "talk_messages_*",
   "mappings": {
@@ -137,7 +137,7 @@ curl -XPUT localhost:9200/_template/talk_messages -d '
 '
 
 # 创建收藏索引
-curl -XPOST localhost:9200/talk_favorites_v2 -d '
+curl -XPOST talk-search:9200/talk_favorites_v2 -d '
 {
   "aliases": {
     "talk_favorites": {}
@@ -278,7 +278,7 @@ curl -XPOST localhost:9200/talk_favorites_v2 -d '
 }'
 
 # 创建分享索引
-curl -XPOST localhost:9200/talk_stories_v2 -d '
+curl -XPOST talk-search:9200/talk_stories_v2 -d '
 {
   "aliases": {},
   "mappings": {

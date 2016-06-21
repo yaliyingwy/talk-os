@@ -103,6 +103,7 @@ schemas =
   Invitation: require './invitation'
   DeviceToken: require './devicetoken'
   Favorite: require './favorite'
+  Daily: require './daily'
   Tag: require './tag'
   Voip: require './voip'
   Story: require './story'

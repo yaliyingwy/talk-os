@@ -23,6 +23,7 @@ util = require '../../util'
   MarkModel
   GroupModel
   ActivityModel
+  DailyModel
 } = limbo.use 'talk'
 
 RIGHT_READ: 0b0001
@@ -590,6 +591,17 @@ module.exports = permission =
       return callback() if _sessionUserId is "#{tag._creatorId}"
       req.set '_teamId', tag._teamId
       return self.isTeamAdmin req, res, callback
+
+  editableDaily: (req, res, callback) ->
+    {_id, _sessionUserId} = req.get()
+    self = this
+    DailyModel.findOne _id: _id, (err, daily) ->
+      return callback(new Err('OBJECT_MISSING', "daily #{_id}")) unless daily
+      req.set 'daily', daily
+      return callback() if _sessionUserId is "#{daily._creatorId}"
+      req.set "_teamId", daily._teamId
+      return self.isTeamAdmin req, res, callback
+      
 
   readableStory: (req, res, callback) ->
     req.set '_storyId', req.get('_id')

@@ -12,8 +12,8 @@ res.response = ->
   {err, result, req} = this
   if err
     err = new Err(err) unless err instanceof Err
-    if err.code is 100  # Log the unknown error
-      logger.err req.method, req.url, Object.keys(req.headers), Object.keys(req.query), Object.keys(req.body), err.stack
+    #if err.code is 100  # Log the unknown error
+    logger.err req.method, req.url, Object.keys(req.headers), Object.keys(req.query), Object.keys(req.body), err.stack
     @status(err.status or 400).json
       code: err.code
       message: err.locale(req.getLocale()).message

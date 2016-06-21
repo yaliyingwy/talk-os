@@ -1,6 +1,6 @@
 moment = require 'moment'
 request = require 'request'
-config = require 'config'
+config = require '../config/default'
 Promise = require 'bluebird'
 
 requestAsync = Promise.promisify request

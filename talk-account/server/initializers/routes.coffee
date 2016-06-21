@@ -19,7 +19,7 @@ apiCallback = (req, res) ->
   {err, result} = res
   if err
     err = new Err(err) unless err instanceof Err
-    logger.info req.method, req.url, err.stack if err.code is 100
+    logger.info req.method, req.url, err.stack #if err.code is 100
 
     res.status(err.status or 400).json
       code: err.code
@@ -29,29 +29,29 @@ apiCallback = (req, res) ->
     res.status(200).json(result)
 
 ################################## 页面路由 ##################################
-app.get '/', to: 'signin#redirect'
-app.get '/signin', to: 'signin#render'
-app.get '/access', to: 'signin#render'
-app.get '/signup', renderer
+app.get '/account', to: 'signin#redirect'
+app.get '/account/signin', to: 'signin#render'
+app.get '/account/access', to: 'signin#render'
+app.get '/account/signup', renderer
 
-app.get '/forgot-password', renderer
-app.get '/reset-password', renderer # callback page from email
-app.get '/succeed-resetting', renderer
+app.get '/account/forgot-password', renderer
+app.get '/account/reset-password', renderer # callback page from email
+app.get '/account/succeed-resetting', renderer
 
-app.get '/email-sent', renderer
+app.get '/account/email-sent', renderer
 
-app.get '/bind-mobile', renderer
-app.get '/verify-mobile', renderer
+app.get '/account/bind-mobile', renderer
+app.get '/account/verify-mobile', renderer
 
-app.get '/succeed-binding', renderer
+app.get '/account/succeed-binding', renderer
 
-app.get '/bind-email', renderer
-app.get '/verify-email', renderer # callback page from email
+app.get '/account/bind-email', renderer
+app.get '/account/verify-email', renderer # callback page from email
 
-app.get '/email/preview', to: 'email#preview' if config.debug
+app.get '/account/email/preview', to: 'email#preview' if config.debug
 
 # static file server for developing
-app.use '/build', express.static(path.join(__dirname, '../../build/'))
+app.use '/account/build', express.static(path.join(__dirname, '../../build/'))
 ################################## API 路由 ##################################
 
 app.routeCallback = apiCallback

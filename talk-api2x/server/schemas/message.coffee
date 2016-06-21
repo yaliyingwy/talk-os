@@ -228,7 +228,7 @@ MessageSchema.methods.index = (options = {}, callback = ->) ->
   searchMessage.index options, callback
 
 MessageSchema.methods.unIndex = (options = {}, callback = ->) ->
-  return # @osv
+  # return # @osv
   if toString.call(options) is '[object Function]'
     callback = options
     options = {}

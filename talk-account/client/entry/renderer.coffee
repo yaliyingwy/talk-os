@@ -44,6 +44,7 @@ module.exports = (req, res) ->
   .setIn ['client', 'captchaService'], config.captchaService
 
   if res.err?
+    logger.warn 'err is:', res.err
     if res.err.code is 404
       res.status res.err.status
       store = store.set 'serverError', Immutable.fromJS

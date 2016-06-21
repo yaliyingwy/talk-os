@@ -25,6 +25,9 @@ module.exports =
       readone:     '/rooms/:id'
     favorites:
       read:        '/favorites'
+    dailies:
+      read:        '/dailies'
+      excel:         '/dailies/excel'
     tags:
       read:        '/tags'
     strikertoken:  '/strikertoken'
@@ -43,6 +46,10 @@ module.exports =
       read:        '/usages'
     activities:
       read: '/activities'
+
+  download:
+    dailies:
+     excel:         '/dailies/excel' 
 
   post:
     messages:
@@ -84,6 +91,10 @@ module.exports =
     favorites:
       create:        '/favorites'
       search:        '/favorites/search'
+    dailies:
+      create:        '/dailies'
+      send:          '/dailies/send'
+      
     tags:
       create:        '/tags'
     stories:
@@ -115,6 +126,8 @@ module.exports =
       prefs:      '/rooms/:id/prefs'
     tags:
       update:     '/tags/:id'
+    dailies:
+      update:     '/dailies/:id'
     stories:
       update: '/stories/:id'
     notifications:
@@ -131,6 +144,8 @@ module.exports =
       remove:     '/rooms/:id'
     favorites:
       remove:     '/favorites/:id'
+    dailies:
+      remove:     '/dailies/:id'
     tags:
       remove:     '/tags/:id'
     invitations:

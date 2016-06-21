@@ -7,8 +7,11 @@ config = require 'config'
 webpack = require 'webpack'
 sequence = require 'run-sequence'
 WebpackDevServer = require 'webpack-dev-server'
+shell = require('gulp-shell')
 
 env = process.env.NODE_ENV
+
+debug = true
 
 gulp.task 'html', (cb) ->
   template = require './entry/template'
@@ -22,37 +25,36 @@ gulp.task 'clean', (cb) ->
 
   del ['build'], cb
 
+gulp.task('serve', shell.task('ps -ef |grep "node app.js"|grep -Ev "grep"|awk \'{print $2}\'|xargs kill -9 && node app.js'));
+
 # Webpack tasks
 
 gulp.task 'webpack-dev', (cb) ->
-  webpackDev = require './packing/webpack-dev'
+
   webpackServer =
-    publicPath: '/'
+    contentBase: 'build'
+    historyApiFallback: true
     hot: true
     stats:
       colors: true
+    proxy: {'/v2*': 'http://talk-web.xegood.com'}
   info =
-    __dirname: __dirname
-    env: env
+    debug: true
+  webpackDev = require('./packing/webpack-config')(info)
 
-  compiler = webpack (webpackDev info)
+  compiler = webpack (webpackDev)
   server = new WebpackDevServer compiler, webpackServer
 
-  server.listen config.webpackDevPort, 'talk.bi', (err) ->
+  server.listen 8080, 'talk-web.xegood.com', (err) ->
     if err?
       throw new gutil.PluginError("webpack-dev-server", err)
     gutil.log "[webpack-dev-server] is listening"
     cb()
 
 gulp.task 'webpack-build', (cb) ->
-  webpackBuild = require './packing/webpack-build'
+  webpackBuild = require './packing/webpack-config'
   info =
-    __dirname: __dirname
-    isMinified: config.isMinified
-    isProduction: config.isProduction
-    useCDN: config.useCDN
-    cdn: config.cdn
-    env: env
+    debug: debug
   webpack (webpackBuild info), (err, stats) ->
     if err
       throw new gutil.PluginError("webpack", err)
@@ -80,10 +82,18 @@ gulp.task 'webpack-test', (cb) ->
 # aliases
 
 gulp.task 'dev', (cb) ->
+  debug = true
+  gutil.log gutil.colors.yellow("Running Gulp in `#{process.env.MODEL}` mode!")
   sequence 'html', 'webpack-dev', cb
 
 gulp.task 'build', (cb) ->
-  gutil.log gutil.colors.yellow("Running Gulp in `#{env}` mode!")
+  debug = true
+  gutil.log gutil.colors.yellow("Running Gulp in `#{process.env.MODEL}` mode!")
+  sequence 'clean', 'webpack-build', 'html', cb
+
+gulp.task 'dist', (cb) ->
+  debug = false
+  gutil.log gutil.colors.yellow("Running Gulp in `#{process.env.MODEL}` mode!")
   sequence 'clean', 'webpack-build', 'html', cb
 
 # CDN

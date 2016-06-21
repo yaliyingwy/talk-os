@@ -35,7 +35,7 @@ module.exports = (assets, config) ->
         title null, '简聊'
         meta charset: 'utf-8'
         meta 'http-equiv': 'X-UA-Compatible', content: 'IE=edge, chrome=1'
-        meta name: 'referrer', content: 'origin-when-cross-origin'
+        meta name: 'referrer', content: 'never'
         meta name: 'superfish', content: 'nofish'
         meta name: 'author', content: '简聊'
         meta name: 'description', content: '简聊是一个团队协作即时通讯工具, 拥有多种消息文本类型, 话题, 内容分享, 搜索, 文件整理以及一系列精彩的功能. 我们希望你的团队能通过简聊变得更有效率'
@@ -46,7 +46,7 @@ module.exports = (assets, config) ->
         meta property: 'og:site_name', content: '简聊'
         meta property: 'og:title', content: '简聊 | 谈工作，用简聊'
         meta property: 'og:type', content: 'website'
-        meta property: 'og:url', content: 'https://jianliao.com'
+        meta property: 'og:url', content: 'https://talk-web'
         link rel: 'shortcut icon', type: 'image/x-icon', href: '/favicon.ico'
         if assets.style?
           link rel: 'stylesheet', type: 'text/css', href: assets.style

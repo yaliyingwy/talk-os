@@ -1,13 +1,18 @@
 path = require 'path'
 
 module.exports = config =
+  searchHost: 'talk-search'
+  searchPort: 9200
+  searchProtocol: 'http'
+
   debug: true
-  apiHost: 'talk-web:7001'
+  fileUrl: 'http://talk-web.xegood.com'
+  apiHost: 'talk-web.xegood.com'
   accountId: 'aid'
   apiVersion: 'v2'
-  webHost: 'talk-web:7001'
-  sessionDomain: '.talk-web'
-  guestHost: 'talk-web:7001'
+  webHost: 'talk-web.xegood.com'
+  sessionDomain: '.talk-web.xegood.com'
+  guestHost: 'talk-web.xegood.com'
   schema: 'http'
   mongodb: 'mongodb://talk-mongo:27017/talk'
   redisHost: 'talk-redis'
@@ -18,15 +23,15 @@ module.exports = config =
     clientId: 'Client id of snapper'
     clientSecret: 'Client secret of snapper'
     channelPrefix: 'snapper'
-    host: 'talk-web:7001/snapper'  # For test
-  talkAccountApiUrl: 'http://talk-web:7001/account'
-  talkAccountPageUrl: 'http://talk-web:7001/page'
+    host: 'talk-web.xegood.com/snapper'  # For test
+  talkAccountApiUrl: 'http://talk-account:7000'
+  talkAccountPageUrl: 'http://talk-account:7000/page'
   cdnPrefix: 'https://dn-talk.oss.aliyuncs.com'
   checkToken: 'Check token for heartbeat statement'
   serviceConfig:
-    apiHost: 'http://talk-web:7001/v2'
-    cdnPrefix: "http://talk-web:7001/v2/services-static"
-    talkAccountApiUrl: 'http://talk-web:7001/account'
+    apiHost: 'http://talk-web.xegood.com/v2'
+    cdnPrefix: "http://talk-web.xegood.com/v2/services-static"
+    talkAccountApiUrl: 'http://talk-account.xegood.com:7004/account'
     teambition:
       clientSecret: 'Your teambition application secret'
       host: 'https://www.teambition.com'

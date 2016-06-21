@@ -48,6 +48,7 @@ fetchTeamDataIfNeed = (_teamId) ->
     dataRely.relyTeamMembers _teamId
     dataRely.relyTeamSubscribe _teamId
     dataRely.relyTeamTopics _teamId
+    dataRely.relyDailies _teamId
   ]
 
 exports.team = (_teamId, searchQuery = {}) ->
@@ -330,6 +331,29 @@ exports.favorites = (_teamId, searchQuery) ->
       deviceActions.networkLoaded(info)
     .done()
 
+fetchDailiesDataIfNeed = (_teamId) ->
+  [
+    dataRely.relyDailies _teamId
+  ]
+
+exports.dailies = (_teamId) ->
+  info = 
+    type: 'dailies'
+    _teamId: _teamId
+  d = dataRely.ensure [
+    fetchTeamDataIfNeed _teamId
+    fetchDailiesDataIfNeed _teamId
+  ]
+
+  if not d.isSatisfied
+    deviceActions.networkLoading(info)
+  d.request()
+    .then ->
+      routerActions.dailies _teamId
+      deviceActions.networkLoaded(info)
+    .done()
+  
+
 fetchCollectionDataIfNeed = ->
   []
 
@@ -512,4 +536,14 @@ exports.teamOverview = (_teamId, searchQuery) ->
       nextDeps.request()
     .then ->
       routerActions.overview(_teamId, searchQuery)
+    .done()
+
+exports.teamDaily = (_teamId, searchQuery) ->
+  deps = dataRely.ensure [
+    fetchTeamDataIfNeed _teamId
+  ]
+
+  deps.request()
+    .then ->
+      routerActions.dailies(_teamId, searchQuery)
     .done()

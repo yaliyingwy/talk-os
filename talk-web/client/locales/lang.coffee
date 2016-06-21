@@ -39,7 +39,6 @@ exports.getText = (text, language) ->
     localeSource = zhTwLocale
   else
     localeSource = zhLocale
-
   if localeSource[text]?
     localeSource[text]
   else

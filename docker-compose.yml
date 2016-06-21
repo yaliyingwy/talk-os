@@ -1,30 +1,81 @@
-# talk-account:
-#   build: ./talk-account
-#   expose:
-#     - 7630
-#   links:
-#     - talk-redis
-#     - talk-mongo
-# talk-api:
-#   build: ./talk-api2x
-#   expose:
-#     - 7001
-#   links:
-#     - talk-mongo
-#     - talk-redis
-talk-web:
-  build: .
-  expose:
-    - 7001
-    - 8081
-  links:
-    - talk-mongo
-    - talk-redis
-  ports:
-    - "7001:7001"
-    - "8081:8081"
-talk-redis:
-  image: redis:latest
+version: '2'
+services:
+  talk-search:
+    image: yaliyingwy/talk-search:latest
+    expose:
+      - 9200
+      - 9300
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    volumes:
+      - ./data/talk-search/data:/usr/share/elaticsearch/data
 
-talk-mongo:
-  image: mongo:latest
+  talk-redis:
+    image: redis:latest
+    expose:
+      - 6379
+    volumes:
+      - ./data/talk-redis/data:/data
+
+  talk-mongo:
+    image: mongo:latest
+    expose:
+      - 27017
+    #volumes:
+      #- ./data/talk-mongo/db:/data/db
+      #- ./data/talk-mongo/configdb:/data/configdb
+
+  talk-file:
+    image: yaliyingwy/talk-file:latest
+    expose:
+      - 7002
+    ports:
+      - "7002:7002"
+    volumes:
+      - ./data/talk-file/data:/data
+
+  talk-account:
+    image: yaliyingwy/talk-account:latest
+    expose:
+      - 7000
+    links:
+      - talk-redis
+      - talk-mongo
+    ports:
+      - "7000:7000"
+      
+  talk-api:
+    image: yaliyingwy/talk-api:latest
+    expose:
+      - 7001
+    links:
+      - talk-mongo
+      - talk-redis
+      - talk-snapper
+      - talk-account
+      - talk-search
+    ports:
+      - "7001:7001"
+
+  talk-snapper:
+    image: yaliyingwy/talk-snapper:latest
+    expose:
+      - 7003
+    ports:
+      - "7003:7003"
+    links:
+      - talk-redis
+      - talk-mongo
+
+  talk-web:
+    image: yaliyingwy/talk-web:latest
+    expose:
+      - 80
+    links:
+      - talk-account
+      - talk-api
+      - talk-snapper
+      - talk-file
+    ports:
+      - "80:80"

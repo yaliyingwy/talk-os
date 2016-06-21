@@ -45,6 +45,7 @@ require './util/overload'
 
 Container = React.createFactory require './app/container'
 
+
 window.initNwPlugin? lang.getLang()
 if __GA__
   require('q').longStackSupport = true
