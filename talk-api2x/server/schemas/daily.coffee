@@ -14,6 +14,7 @@ module.exports = DailySchema = new Schema
   testDate: type: Date, default: Date.now
   productionDate: type: Date, default: Date.now
   pm: type: String
+  send: type: Boolean, default: false
   progress: type: Number, min: 0, max: 1
   createdAt: type: Date, default: Date.now
   updatedAt: type: Date, default: Date.now

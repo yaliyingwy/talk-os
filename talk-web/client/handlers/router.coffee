@@ -48,7 +48,7 @@ fetchTeamDataIfNeed = (_teamId) ->
     dataRely.relyTeamMembers _teamId
     dataRely.relyTeamSubscribe _teamId
     dataRely.relyTeamTopics _teamId
-    dataRely.relyDailies _teamId
+    # dataRely.relyDailies _teamId
   ]
 
 exports.team = (_teamId, searchQuery = {}) ->
@@ -336,12 +336,18 @@ fetchDailiesDataIfNeed = (_teamId) ->
     dataRely.relyDailies _teamId
   ]
 
+fetchPmDataIfNeed = ->
+  [
+    dataRely.pmList()
+  ]
+
 exports.dailies = (_teamId) ->
   info = 
     type: 'dailies'
     _teamId: _teamId
   d = dataRely.ensure [
     fetchTeamDataIfNeed _teamId
+    fetchPmDataIfNeed()
     fetchDailiesDataIfNeed _teamId
   ]
 

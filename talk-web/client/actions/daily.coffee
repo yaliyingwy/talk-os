@@ -26,6 +26,14 @@ exports.readDaily = (_teamId, success, fail) ->
     .catch (error) ->
       fail? error
 
+exports.pmList = (success, fail) ->
+  api.dailies.pm.get()
+    .then (resp) ->
+      dispatcher.handleViewAction type: 'daily/pm', data: resp
+      success? Immutable.fromJS(resp)
+    .catch (error) ->
+      fail? error
+
 exports.createExcel = (data, success, fail) ->
   api.download "/v2/dailies/excel?_ids=#{data._ids}"
 
@@ -33,6 +41,7 @@ exports.sendDaily = (data, success, fail) ->
   api.dailies.send.post data: data
     .then (resp) ->
       notifyActions.success lang.getText('daily-sended')
+      dispatcher.handleViewAction type: 'daily/send', data: data
       success? Immutable.fromJS(resp)
     .catch (error) ->
       notifyActions.error lang.getText('daily-send-failed')

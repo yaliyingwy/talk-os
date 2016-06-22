@@ -138,7 +138,7 @@ exports.relyDailies = (_teamId) ->
   store = recorder.getState()
 
   kind: 'dailyResults'
-  isSatisfied: store.getIn(['dailies', _teamId])?
+  isSatisfied: false
   request: (resolve, reject) ->
     dailyActions.readDaily _teamId, resolve, reject
 
@@ -176,6 +176,14 @@ exports.contacts = (_teamId) ->
     contactActions.read _teamId, resolve, reject
 
 # message
+# 
+exports.pmList = ->
+  store = recorder.getState()
+  
+  kind: 'pmList'
+  isSatisfied: store.has('pmList')
+  request: (resolve, reject) ->
+    dailyActions.pmList resolve, reject
 
 exports.messages = (_teamId, _channelId, _channelType) ->
   store = recorder.getState()

@@ -40,6 +40,8 @@ methods = {
   'daily/read': daily.read
   'daily/create': daily.create
   'daily/remove': daily.remove
+  'daily/pm': daily.pm
+  'daily/send': daily.send
 
   'tag/read': tag.read
   'tag/create': tag.create

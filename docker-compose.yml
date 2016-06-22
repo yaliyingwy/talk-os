@@ -57,6 +57,8 @@ services:
       - talk-search
     ports:
       - "7001:7001"
+    volumes:
+      - ./data/talk-api/data:/data
 
   talk-snapper:
     image: yaliyingwy/talk-snapper:latest

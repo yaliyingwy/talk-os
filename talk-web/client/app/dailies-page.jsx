@@ -10,6 +10,8 @@ import routerHandlers from '../handlers/router';
 
 import DailyAction from '../actions/daily';
 
+import LightDialog from '../module/light-dialog';
+
 
 import lang from '../locales/lang';
 
@@ -27,6 +29,8 @@ import ButtonSingleAction from  '../module/button-single-action';
 import NotifyActions from '../actions/notify';
 import LightCheckbox from '../module/light-checkbox';
 
+import NoDaily from '../module/no-daily';
+
 export default React.createClass({
   displayName: 'dailies-page',
   mixins: [mixinSubscribe, mixinFinder, LinkedStateMixin],
@@ -37,7 +41,9 @@ export default React.createClass({
 
   getInitialState() {
     return {
+      dialogText: '所选日报有已经提交过了的哦',
       showDailyModal: false,
+      showDialog: false,
       test: moment(),
       production: moment(),
       project: '',
@@ -46,14 +52,19 @@ export default React.createClass({
       progress: 0.1,
       pm: '冯新',
       results: Immutable.List(),
+      dialogFunc: () => console.log('confirm'),
+      closeFunc: () => this.setState({ showDialog: false }),
     };
   },
 
   componentDidMount() {
     this.subscribe(recorder, () => {
-      const results = this.getResults().map((daily) => daily.set('selected', true));
-      const daily = results.find((value) => value.get('_creatorId') === query.userId(recorder.getState()));
-      const state = { results };
+      const results = this.getResults().map((daily) => daily.set('selected', !daily.get('send')));
+      const daily = results.find((value) => value.get('_creatorId') === query.userId(recorder.getState())); 
+      const state = {
+        results,
+        pmList: this.getPmList(),
+      };
       if (daily) {
         state.work = daily.get('work');
         state.project = daily.get('project');
@@ -69,6 +80,10 @@ export default React.createClass({
   getResults: function() {
     console.log('get results');
     return query.dailiesBy(recorder.getState(), this.props._teamId);
+  },
+
+  getPmList: function() {
+    return query.pmList(recorder.getState());
   },
 
   testDate: function(date) {
@@ -121,7 +136,7 @@ export default React.createClass({
   selectPm: function(e) {
     const { pmList } = this.state;
     this.setState({
-      pm: pmList[e.target.value],
+      pm: pmList.get(e.target.value),
     });
   },
 
@@ -155,26 +170,50 @@ export default React.createClass({
     });
   },
 
-  sendFunc: function() {
+  sendFunc: function(complete) {
     const { results } = this.state;
     const { _teamId } = this.props;
-    const _ids = results.filter((daily) => daily.get('selected')).reduce((ids, daily) => ids + (ids.length > 0 ? ',' : '') + daily.get('_id'), '');
+    const selectList = results.filter((daily) => daily.get('selected'));
+    const _ids = selectList.reduce((ids, daily) => ids + (ids.length > 0 ? ',' : '') + daily.get('_id'), '');
+    const sendList = selectList.filter((daily) => daily.get('send'));
     if (_ids.length === 0) {
+      complete();
       return NotifyActions.error('请先勾选要发送的日报');
+    } else if (sendList.size > 0) {
+      const names = sendList.reduce((str, daily) => str + daily.getIn(['creator', 'name']) + ',', '');
+      this.setState({
+        dialogText: `以下人员${names}已经发送过日报了，是否再次发送？`,
+        dialogFunc: this.doSend.bind(this, _ids, _teamId, complete),
+        closeFunc: () => {
+          complete();
+          this.setState({
+            showDialog: false,
+          });
+        },
+        showDialog: true,
+      });
+    } else {
+      this.doSend(_ids, _teamId, complete);
     }
+
+  },
+
+  doSend(_ids, _teamId, complete) {
     DailyAction.sendDaily({
       _ids,
       _teamId,
     }, (data) => {
       console.log('data:', data);
+      complete();
     }, (error) => {
       console.error(error);
+      complete();
       NotifyActions.error('只有管理员可以发送日报哦');
-    });
+    });    
   },
 
   render() {
-    const { pmList, results } = this.state;
+    const { pmList, results, showDialog, dialogText, dialogFunc, closeFunc } = this.state;
     console.log('query', this.props.router.toJS());
     const pmOptions = pmList.map((pm, index) => {
       return <option key={ index } value={ index }>{ pm }</option>;
@@ -195,7 +234,7 @@ export default React.createClass({
         <div className="daily-cell">{ moment(daily.get('productionDate')).format('YYYY/MM/DD') }</div>
         <div className="daily-cell">{ daily.get('pm') }</div>
         <div className="daily-cell">
-          <LightCheckbox name="选择日报" checked={ daily.get('selected') } onClick={ this.selectDaily.bind(this, index) } />
+          <LightCheckbox name={ daily.get('send') ? '已发送' : '未发送' } checked={ daily.get('selected') } onClick={ this.selectDaily.bind(this, index) } />
         </div>
       </div>);
     });
@@ -220,6 +259,11 @@ export default React.createClass({
           </div>
           { dailyCells }
         </div>
+        {(() => {
+          if (results.size === 0) {
+            return <NoDaily />;
+          }
+        })()}
         <LightModal onCloseClick={() => this.setState({ showDailyModal: false })} show={this.state.showDailyModal} >
           <div className="daily-modal">
             <h2 className="daily-title">日报</h2>
@@ -277,6 +321,15 @@ export default React.createClass({
             <ButtonSingleAction className="button button-plain" onClick={ this.save }>提交</ButtonSingleAction>
           </div>
         </LightModal>
+        <LightDialog 
+          flexible={ true }
+          show={ showDialog }
+          onCloseClick={ closeFunc }
+          onConfirm={ dialogFunc }
+          confirm="发送"
+          cancel="重新选择"
+          content={ dialogText }
+        />
       </div>
     );
   }

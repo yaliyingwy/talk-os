@@ -27,7 +27,7 @@ module.exports =
       read:        '/favorites'
     dailies:
       read:        '/dailies'
-      excel:         '/dailies/excel'
+      pm:         '/dailies/pm'
     tags:
       read:        '/tags'
     strikertoken:  '/strikertoken'

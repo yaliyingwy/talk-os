@@ -6,16 +6,14 @@ moment = require 'moment'
 excel = require 'excel-export'
 nodemailer = require 'nodemailer'
 
+config = require '/data/config.js'
+
 {
   DailyModel
   TeamModel
 } = limbo.use 'talk'
 
-_transporter = nodemailer.createTransport
-  host: 'mail.hnxianyi.com'
-  port: 25
-  secure: false
-  auth: user: 'wenyun@hnxianyi.com', pass: 'xy1234'
+_transporter = nodemailer.createTransport config.mail
 
 module.exports = dailyController = app.controller 'daily', ->
 
@@ -73,6 +71,10 @@ module.exports = dailyController = app.controller 'daily', ->
     update = _.pick req.get() editableFields
     update.updatedAt = new Date
     DailyModel.findOneAndSave _id: _id, update, callback
+
+  @action 'pm', (req, res, callback) ->
+    callback null, config.pmList
+
   @action 'excel', (req, res, callback) ->
     {_ids} = req.get()
     DailyModel.find
@@ -108,6 +110,9 @@ module.exports = dailyController = app.controller 'daily', ->
       _id: $in: _ids.split(',')
     .populate 'creator', 'name'
     .exec (err, dailyList) ->
+      for daily in dailyList
+        daily.send = true
+        daily.save()
       conf = {
         # stylesXmlFile: '日报.xml'
         name: 'daily'
@@ -129,11 +134,10 @@ module.exports = dailyController = app.controller 'daily', ->
       result = excel.execute(conf)
 
       mailOptions = 
-        from: '"文雲" <wenyun@hnxianyi.com>'
-        # to: 'wenyun@hnxianyi.com'
-        to: 'huangzhu@hnxianyi.com,leiyu@hnxianyi.com,583269700@qq.com,277465296@qq.com'
+        from: config.from
+        to: config.to
         attachments: [
-          filename: 'dailyReport.xlsx'
+          filename: "dailyReport#{new Date().toLocaleDateString()}.xlsx"
           contentType: 'application/vnd.openxmlformats'
           contentDisposition: 'attachment; filename=dailyReport.xlsx'
           content: result
@@ -142,6 +146,7 @@ module.exports = dailyController = app.controller 'daily', ->
       TeamModel.findOne {_id: _teamId}, (err, team) ->
         if err
           console.error err
+          callback err, { msg: '日报发送失败' }
         else
           mailOptions.subject = team.name + '日报' + new Date().toLocaleDateString()
           mailOptions.text = "这是的#{team.name}日报\n"

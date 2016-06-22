@@ -1,6 +1,7 @@
 import React from 'react';
 import debounce from 'debounce';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
+import ButtonSingleAction from  '../module/button-single-action';
 
 export default React.createClass({
   displayName: 'favorites-header',
@@ -22,7 +23,7 @@ export default React.createClass({
         <div className="form-control flex-end flex-vcenter">
           <span onClick={ this.props.writeFunc } className="button button-plain">写日报</span>
           <span onClick={ this.props.excelFunc } className="button button-plain">导出</span>
-          <span onClick={ this.props.sendFunc } className="button button-plain">发送</span>
+          <ButtonSingleAction className="button button-plain" onClick={ this.props.sendFunc }>发送</ButtonSingleAction>
         </div>
       </div>
     );

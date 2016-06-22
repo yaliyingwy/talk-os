@@ -846,7 +846,7 @@ module.exports =
   'team-info': '团队信息'
   'daily': '日报'
   'no-daily': '今天还没有人提交日报'
-  'no-daily-tip': '记得每天按时提交日报哦～'
+  'no-daily-tip': '记得每天按时提交日报，不交日报打屁屁哦～'
   "daily-created": "日报创建成功"
   "daily-create-failed": "日报创建失败"
   "daily-removed": "删除日报成功"

@@ -55,6 +55,7 @@ app.resource 'favorite', only: ['create', 'read', 'remove']
 # ----------- daily --------------
 app.get '/dailies/excel', to: 'daily#excel'
 app.post '/dailies/send', to: 'daily#send'
+app.get '/dailies/pm', to: 'daily#pm'
 app.resource 'daily', only: ['create', 'read', 'remove']
 # ----------- favorites --------------
 

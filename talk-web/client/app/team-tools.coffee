@@ -42,7 +42,7 @@ module.exports = React.createClass
     if @isActiveRoute 'dailies'
       routerHandlers.return()
       return
-    routerHandlers.teamDaily @props._teamId
+    routerHandlers.dailies @props._teamId
 
   onRouteFavorites: ->
     if @isActiveRoute 'favorites'

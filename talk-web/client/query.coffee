@@ -11,6 +11,13 @@ exports.dailiesBy = (store, _teamId) ->
     store.getIn ['dailies', _teamId]
   else
     Immutable.List()
+
+exports.pmList = (store) ->
+  if store.has('pmList')
+    store.get('pmList')
+  else
+    Immutable.List()
+  
   
 
 exports.fileMessagesBy = (store, _teamId, _channelId) ->

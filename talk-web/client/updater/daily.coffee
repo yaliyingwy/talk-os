@@ -7,6 +7,15 @@ exports.read = (store, dailyList) ->
 
   store.setIn ['dailies', _teamId], dailyList
 
+exports.pm = (store, pmList) ->
+  store.set 'pmList', pmList
+
+exports.send = (store, data) ->
+  dailyList = store.getIn(['dailies', data.get('_teamId')])
+  dailyList = dailyList.map (daily) ->
+    daily.set('send', daily.get('_id') in data.get('_ids').split(','))
+  store.setIn ['dailies', data.get('_teamId')], dailyList
+
 # https://jianliao.com/doc/restful/favorite.remove.html
 exports.remove = (store, dailyData) ->
   _teamId = dailyData.get('_teamId')
